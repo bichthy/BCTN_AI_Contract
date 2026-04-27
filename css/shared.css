@@ -1,0 +1,129 @@
+/* ═══════════════════════════════════════
+   NUVERXAI — SHARED STYLES
+   Dùng chung cho tất cả các màn hình
+═══════════════════════════════════════ */
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;min-height:100vh;overflow-x:hidden;}
+button{font-family:inherit;}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px;}
+
+/* ── Screen system ── */
+.page{display:none;}
+.page.active{display:flex;flex-direction:column;min-height:100vh;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Header chung ── */
+.hdr{
+  background:#fff;display:flex;align-items:center;
+  padding:10px 40px;gap:12px;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);flex-shrink:0;
+}
+.hdr-logo{display:flex;align-items:center;gap:10px;}
+.hdr-logo-img{width:46px;height:46px;border-radius:10px;object-fit:contain;background:#E65134;}
+.hdr-logo-text .name{color:#E65134;font-weight:700;font-size:15px;line-height:1;}
+.hdr-logo-text .sub{color:#9CA3AF;font-size:9px;font-weight:700;letter-spacing:1px;margin-top:3px;}
+.hdr-gap{flex:1;}
+.hdr-btn-outline{display:flex;align-items:center;gap:7px;padding:7px 18px;border:1.5px solid #E65134;border-radius:20px;background:#fff;color:#E65134;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s;}
+.hdr-btn-outline:hover{background:#fff5f3;}
+.hdr-lang{display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;font-family:inherit;}
+.hdr-lang img{width:22px;height:15px;border-radius:2px;object-fit:cover;}
+.hdr-online{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #4ADE8094;border-radius:20px;background:#E5F8EC;font-size:13px;color:#16a34a;font-weight:500;}
+.hdr-bell{position:relative;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.hdr-bell-dot{position:absolute;top:2px;right:2px;width:7px;height:7px;background:#E65134;border-radius:50%;border:1.5px solid #fff;}
+.hdr-avatar{width:36px;height:36px;border-radius:50%;background:#F78772;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.hdr-login-btn{display:flex;align-items:center;gap:8px;padding:9px 22px;border:1.5px solid #E65134;border-radius:10px;background:#fff;color:#E65134;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;}
+.hdr-login-btn:hover{background:#E65134;color:#fff;}
+.hdr-login-btn:hover svg{stroke:#fff;}
+.hdr-del-btn{display:flex;align-items:center;gap:7px;padding:7px 16px;border:1.5px solid #E65134;border-radius:8px;background:#fff;color:#E65134;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .15s;}
+.hdr-del-btn:hover{background:#fff5f3;}
+
+/* ── Login Modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);backdrop-filter:blur(5px);z-index:9999;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;animation:overlayIn .2s ease;}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:24px;padding:40px 44px 44px;width:100%;max-width:520px;position:relative;animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);box-shadow:0 32px 80px rgba(0,0,0,.18);}
+@keyframes modalIn{from{opacity:0;transform:scale(.93) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:#F3F4F6;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.modal-close:hover{background:#E5E7EB;}
+.modal-logo{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:20px;}
+.modal-logo-img{width:52px;height:52px;border-radius:14px;background:#E65134;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.modal-logo-img img{width:100%;height:100%;object-fit:contain;}
+.modal-logo-name{color:#111;font-weight:700;font-size:18px;}
+.modal-logo-sub{color:#9CA3AF;font-size:10px;font-weight:700;letter-spacing:1px;}
+.modal-title{font-size:22px;font-weight:700;color:#111;text-align:center;margin-bottom:6px;}
+.modal-sub{font-size:14px;color:#9CA3AF;text-align:center;margin-bottom:28px;}
+.form-group{margin-bottom:18px;}
+.form-label{font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;display:block;}
+.form-label span{color:#E65134;}
+.input-wrap{display:flex;align-items:center;gap:10px;padding:12px 16px;border:1.5px solid #E5E7EB;border-radius:12px;background:#F9FAFB;transition:border .15s,background .15s;}
+.input-wrap:focus-within{border-color:#E65134;background:#fff;}
+.input-wrap svg{flex-shrink:0;color:#9CA3AF;}
+.input-wrap input{flex:1;border:none;outline:none;background:transparent;font-size:14px;font-family:inherit;color:#111;}
+.input-wrap input::placeholder{color:#C4C9D4;}
+.pw-toggle{cursor:pointer;color:#9CA3AF;display:flex;align-items:center;transition:color .15s;}
+.pw-toggle:hover{color:#E65134;}
+.forgot{text-align:right;margin-top:8px;font-size:13px;font-weight:600;color:#E65134;cursor:pointer;}
+.forgot:hover{text-decoration:underline;}
+.btn-login{width:100%;padding:15px;margin-top:22px;background:#E65134;color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(230,81,52,.32);transition:all .18s;}
+.btn-login:hover{background:#c8300b;transform:translateY(-1px);}
+
+/* ── Avatar Popup ── */
+.avatar-wrap{position:relative;}
+.avatar-popup{
+  display:none;position:absolute;top:calc(100% + 12px);right:0;
+  width:240px;background:#fff;border-radius:16px;
+  box-shadow:0 8px 32px rgba(0,0,0,.15);
+  padding:0;z-index:999;overflow:hidden;
+  animation:popupIn .18s ease;
+}
+@keyframes popupIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.avatar-popup.open{display:block;}
+.avatar-popup-user{display:flex;align-items:center;gap:12px;padding:16px 16px 14px;}
+.avatar-popup-img{width:42px;height:42px;border-radius:50%;background:#F78772;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.avatar-popup-name{font-size:14px;font-weight:700;color:#111;line-height:1.3;}
+.avatar-popup-email{font-size:12px;color:#9CA3AF;margin-top:2px;}
+.avatar-popup-divider{height:1px;background:#F3F4F6;margin:0;}
+.avatar-popup-menu{padding:6px 0;}
+.avatar-popup-item{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;cursor:pointer;transition:background .15s;}
+.avatar-popup-item:hover{background:#FFF8F5;}
+.avatar-popup-item-left{display:flex;align-items:center;gap:12px;}
+.avatar-popup-item-icon{width:34px;height:34px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.avatar-popup-item-text{font-size:13px;font-weight:500;color:#111;}
+.avatar-popup-logout{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;margin:6px 12px 12px;border:1.5px solid #E65134;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;color:#E65134;transition:all .15s;}
+.avatar-popup-logout:hover{background:#FFF5F0;}
+
+
+/* ── NOTIFICATION PANEL (shared component) ── */
+.notif-panel{display:none;position:fixed;top:68px;right:16px;width:360px;background:#fff;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.16);z-index:9998;overflow:hidden;}
+.notif-panel.open{display:block;animation:fadeInDown .2s ease;}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.notif-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;}
+.notif-title{font-size:16px;font-weight:700;color:#111;display:flex;align-items:center;gap:8px;}
+.notif-badge{background:#E651341A;color:#E65134;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.notif-mark-all{font-size:12px;font-weight:600;color:#E65134;cursor:pointer;white-space:nowrap;}
+.notif-mark-all:hover{text-decoration:underline;}
+.notif-list{max-height:400px;overflow-y:auto;}
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:12px 18px;border-top:1px solid #F3F4F6;cursor:pointer;transition:background .12s;position:relative;}
+.notif-item:hover{background:#fafafa;}
+.notif-item.unread{background:#FFFAF9;}
+.notif-item.read{opacity:.7;}
+.notif-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.notif-content{flex:1;min-width:0;}
+.notif-name{font-size:13px;font-weight:600;color:#111;margin-bottom:4px;line-height:1.4;}
+.notif-item.read .notif-name{font-weight:400;color:#6B7280;}
+.notif-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.notif-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;}
+.notif-mhd{font-size:11px;color:#9CA3AF;}
+.notif-time{font-size:11px;color:#9CA3AF;white-space:nowrap;flex-shrink:0;}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:#E65134;flex-shrink:0;margin-top:4px;}
+.notif-footer{padding:14px;text-align:center;border-top:1px solid #F3F4F6;}
+.notif-footer-btn{font-size:14px;font-weight:700;color:#E65134;cursor:pointer;background:none;border:none;}
+.notif-footer-btn:hover{text-decoration:underline;}
+
+/* ── Bộ lọc nâng cao ── */

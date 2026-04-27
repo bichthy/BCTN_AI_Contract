@@ -1,0 +1,86 @@
+<!--
+  notif.html — Notification panel (component dùng chung)
+-->
+<div id="notif-panel" class="notif-panel">
+  <div class="notif-header">
+    <div class="notif-title">Thông báo <span class="notif-badge">3 mới</span></div>
+    <span class="notif-mark-all" onclick="markAllRead()">Đánh dấu tất cả đã đọc</span>
+  </div>
+  <div class="notif-list">
+
+    <!-- Item 1 — Đã phê duyệt -->
+    <div class="notif-item unread" onclick="markRead(this)">
+      <div class="notif-icon" style="background:#DEF7E7;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-name">HỢP ĐỒNG MUA BÁN XE Ô TÔ</div>
+        <div class="notif-meta">
+          <span class="notif-tag" style="background:#DEF7E7;color:#15803d;">Đã phê duyệt</span>
+          <span class="notif-mhd">• MHD: 2805-42</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="notif-time">2 phút trước</span>
+        <div class="notif-dot"></div>
+      </div>
+    </div>
+
+    <!-- Item 2 — Chờ phê duyệt -->
+    <div class="notif-item unread" onclick="markRead(this)">
+      <div class="notif-icon" style="background:#FFF8E5;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CAA016" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-name">HỢP ĐỒNG CHUYỂN NHƯỢNG QUYỀN SỬ DỤNG ĐẤT</div>
+        <div class="notif-meta">
+          <span class="notif-tag" style="background:#FFF8E5;color:#CAA016;">Chờ phê duyệt</span>
+          <span class="notif-mhd">• MHD: 24577-42</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="notif-time">2 giờ trước</span>
+        <div class="notif-dot"></div>
+      </div>
+    </div>
+
+    <!-- Item 3 — Bị từ chối -->
+    <div class="notif-item unread" onclick="markRead(this)">
+      <div class="notif-icon" style="background:#FDE8E8;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-name">HỢP ĐỒNG CHUYỂN NHƯỢNG QUYỀN SỬ DỤNG ĐẤT</div>
+        <div class="notif-meta">
+          <span class="notif-tag" style="background:#FDE8E8;color:#E65134;">Bị từ chối</span>
+          <span class="notif-mhd">• MHD: 12548-78</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="notif-time">4 giờ trước</span>
+        <div class="notif-dot"></div>
+      </div>
+    </div>
+
+    <!-- Item 4 — Bị từ chối (read) -->
+    <div class="notif-item read" onclick="markRead(this)">
+      <div class="notif-icon" style="background:#F3F4F6;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div class="notif-content">
+        <div class="notif-name">Hợp đồng chuyển nhượng quyền sử dụng đất</div>
+        <div class="notif-meta">
+          <span class="notif-tag" style="background:#F3F4F6;color:#9CA3AF;">Bị từ chối</span>
+          <span class="notif-mhd">• MHD: 12548-78</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="notif-time">Hôm qua</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="notif-footer">
+    <button class="notif-footer-btn">Xem tất cả thông báo</button>
+  </div>
+</div>

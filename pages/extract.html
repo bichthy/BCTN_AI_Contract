@@ -1,0 +1,549 @@
+<!--
+  extract.html — Màn hình Trích xuất tài liệu
+-->
+
+<div id="page-extract" class="page">
+  <header class="hdr">
+    <div class="hdr-logo">
+      <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/pPPhvHlewN/cb6uohth_expires_30_days.png"
+        class="hdr-logo-img" onerror="this.style.background='#E65134'"/>
+      <div class="hdr-logo-text">
+        <div class="name">NuverxAI</div>
+        <div class="sub">AI CONTRACT</div>
+      </div>
+    </div>
+    <div class="hdr-gap"></div>
+    <button class="hdr-btn-outline">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      Tra cứu pháp luật
+    </button>
+    <button class="hdr-lang"><img src="https://flagcdn.com/w40/vn.png" alt="VN"/> VN</button>
+    <div class="hdr-online">
+      <div style="width:8px;height:8px;border-radius:50%;background:#4ADE80;"></div>Online
+    </div>
+    <button class="hdr-del-btn" onclick="openDeleteConfirm()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14H6L5 6"/>
+        <path d="M10 11v6M14 11v6"/>
+        <path d="M9 6V4h6v2"/>
+      </svg>
+      Xóa
+    </button>
+    <div class="hdr-bell" onclick="toggleNotif(event)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <div class="hdr-bell-dot"></div>
+    </div>
+    <div class="avatar-wrap">
+      <div class="hdr-avatar" onclick="toggleAvatarPopup(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="extract-body">
+
+    <!-- ── SIDEBAR TRÁI ── -->
+    <div class="thumb-sidebar">
+      <div class="thumb-actions">
+        <button class="btn-extract-main" onclick="doExtract()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <span class="extract-label">Trích xuất (<span id="page-count">0</span> trang)</span>
+        </button>
+        <button class="btn-export" id="btn-export-word" onclick="openLoiChung()" disabled>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="8 17 12 21 16 17"/>
+            <line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.36"/>
+          </svg>
+          Xuất File Word
+        </button>
+      </div>
+      <div class="thumb-section-label">TÀI LIỆU</div>
+      <div class="thumb-list" id="thumb-list"></div>
+      <div style="padding:0 10px 10px;">
+        <div class="thumb-add-btn" onclick="document.getElementById('file-input-add').click()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Thêm trang
+        </div>
+        <input type="file" id="file-input-add" accept=".pdf,.png,.jpg,.jpeg"
+          multiple style="display:none" onchange="addPages(this.files)"/>
+      </div>
+    </div>
+
+    <!-- ── DOC VIEWER GIỮA ── -->
+    <div class="doc-viewer">
+
+      <!-- Progress bar -->
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-msg">Hệ thống AI đang thực hiện phân tích và trích xuất dữ liệu</div>
+        <div class="progress-steps">
+          <span class="step-pill done">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Nâng cấp
+          </span>
+          <span class="step-pill active-step" id="step-ocr">● OCR</span>
+          <span class="step-pill idle" id="step-hc">Hiệu chỉnh</span>
+          <span class="step-pill idle" id="step-tx">Trích xuất</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-pct" id="progress-pct">0%</div>
+      </div>
+
+      <!-- Tab bar -->
+      <div class="doc-tabs" id="doc-tabs">
+        <div class="tab-left">
+          <div class="doc-tab active" id="tab-toanvan" onclick="switchDocTab('toanvan')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="8" y1="13" x2="16" y2="13"/>
+              <line x1="8" y1="17" x2="13" y2="17"/>
+            </svg>
+            Toàn văn
+          </div>
+          <div class="doc-tab" id="tab-vanbangoc" onclick="switchDocTab('vanbangoc')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Văn bản gốc
+          </div>
+        </div>
+        <div class="tab-right">
+          <div class="tab-search-wrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="Tìm kiếm trong văn bản"
+              id="search-input" oninput="doSearch(this.value)"/>
+          </div>
+          <div class="tab-zoom-group">
+            <button class="tab-zoom-btn" onclick="changeZoom(10)" title="Phóng to">+</button>
+            <div class="tab-zoom-val" id="zoom-val">100%</div>
+            <button class="tab-zoom-btn" onclick="changeZoom(-10)" title="Thu nhỏ">−</button>
+          </div>
+          <button class="tab-refresh-btn" onclick="resetZoom()" title="Đặt lại zoom">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="1 4 1 10 7 10"/>
+              <polyline points="23 20 23 14 17 14"/>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel: Toàn văn -->
+      <div class="tab-panel-doc" id="panel-toanvan">
+        <div class="toanvan-scroll">
+          <div class="toanvan-content">
+            <p style="text-align:center;font-weight:600;margin-bottom:4px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+            <p style="text-align:center;margin-bottom:4px;">Độc lập - Tự do - Hạnh phúc</p>
+            <p style="text-align:center;margin-bottom:16px;">-----------------------</p>
+            <p style="text-align:center;font-weight:700;font-size:15px;margin-bottom:20px;">HỢP ĐỒNG MUA BÁN XE Ô TÔ</p>
+            <p style="margin-bottom:12px;">Hôm nay, ngày 03 tháng 7 năm 2025, tại trụ sở Phòng Công chứng số 1 thành phố Hà Nội, chúng tôi gồm:</p>
+            <p style="font-weight:600;margin-bottom:6px;">BÊN BÁN (Bên A):</p>
+            <p style="margin-bottom:12px;">Ông Trần Văn Thuấn, sinh ngày 04 tháng 9 năm 1973, Căn cước công dân số 031073016234 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 12/01/2022 và vợ là bà Lê Thị Thanh Thủy, sinh ngày 24 tháng 3 năm 1972, Căn cước công dân số 001172022895 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 26/02/2021. Cả hai ông bà cùng thường trú tại Căn hộ chung cư số 307, nhà 3 tầng, TT Thông Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội.</p>
+            <p style="font-weight:600;margin-bottom:6px;">BÊN MUA (Bên B):</p>
+            <p style="margin-bottom:12px;">Ông Bùi Đức Thành, sinh ngày 09 tháng 3 năm 2001, Căn cước công dân số 001201005875 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 14/5/2021, thường trú tại P314 B11, phường Thanh Xuân, thành phố Hà Nội.</p>
+            <p style="margin-bottom:12px;">Chúng tôi tự nguyện cùng nhau lập và ký bán hợp đồng này để thực hiện việc mua bán ô tô, với những điều khoản đã được hai bên bàn bạc và thoả thuận như sau:</p>
+            <p style="font-weight:600;margin-bottom:8px;">Đặc điểm xe mua bán</p>
+            <p style="margin-bottom:12px;">1. Bên A là chủ sở hữu 01 (một) chiếc xe ô tô nhãn hiệu: HONDA; Số loại: CITYRS; Màu sơn: Đen; Số máy: L15ZC1012027, Số khung: RLHGN2681MY008687; số chỗ ngồi: 5; Biển số: 30H-489.96. Theo chứng nhận đăng ký xe ô tô số 29 101549 do Phòng Cảnh sát giao thông - Công an thành phố Hà Nội cấp ngày 17/02/2022, đứng tên chủ xe là Trần Văn Thuấn.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Văn bản gốc -->
+      <div class="tab-panel-doc active" id="panel-vanbangoc">
+        <div class="doc-scroll" id="vanbangoc-scroll">
+          <div id="vanbangoc-pages" style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px 16px;"></div>
+          <div id="vanbangoc-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#9CA3AF;font-size:14px;padding:60px 20px;text-align:center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5" style="margin-bottom:14px;">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Chưa có tài liệu nào được tải lên
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULT PANEL PHẢI ── -->
+    <div class="result-panel">
+      <div class="result-hdr">
+        <div class="result-hdr-row1">
+          <div class="result-title-wrap">
+            <div class="result-robot">🤖</div>
+            <div class="result-title">Kết quả trích xuất</div>
+          </div>
+          <button class="result-save-outline" id="btn-luu-nhap" style="display:none;" onclick="luuNhap()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Lưu nháp
+          </button>
+        </div>
+        <div class="result-hdr-row2" id="result-actions" style="display:none;">
+          <button class="result-btn-full result-btn-shield" onclick="openNganChan()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Tra cứu ngăn chặn
+          </button>
+          <button class="result-btn-full result-btn-sync" onclick="luuVaDongBo()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <polyline points="16 16 12 12 8 16"/>
+              <line x1="12" y1="12" x2="12" y2="21"/>
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+            </svg>
+            Lưu &amp; Đồng bộ
+          </button>
+        </div>
+      </div>
+
+      <!-- Idle -->
+      <div class="result-idle" id="result-idle">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#E5E7EB" stroke-width="1.5" style="margin-bottom:16px;">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <div style="font-size:14px;color:#9CA3AF;text-align:center;line-height:1.6;">
+          Nhấn nút <strong style="color:#E65134;">Trích xuất</strong> để bắt đầu phân tích tài liệu
+        </div>
+      </div>
+
+      <!-- Processing -->
+      <div class="result-idle" id="result-processing" style="display:none;">
+        <div class="processing-lbl">Đang xử lý</div>
+        <div class="bars">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div>
+        </div>
+      </div>
+
+      <!-- Result content -->
+      <div class="result-content" id="result-content">
+        <!-- THÔNG TIN HỢP ĐỒNG -->
+        <div class="res-section">
+          <div class="res-sec-hdr orange">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span class="res-sec-title orange">THÔNG TIN HỢP ĐỒNG</span>
+          </div>
+          <div class="res-sec-body">
+            <div class="res-row">
+              <div class="res-field"><span class="res-lbl">Mã hợp đồng</span><input class="res-inp" value="2805-42"/></div>
+              <div class="res-field"><span class="res-lbl">Thời hạn</span>
+                <div class="res-inp-wrap">
+                  <input class="res-inp" value="--" placeholder="dd/mm/yyyy"/>
+                  <span class="res-cal">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Loại hợp đồng</span><input class="res-inp" value="Hợp đồng mua bán"/></div></div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Tên hợp đồng</span><input class="res-inp" value="HỢP ĐỒNG MUA BÁN XE Ô TÔ"/></div></div>
+            <div class="res-row">
+              <div class="res-field full"><span class="res-lbl">Giá trị hợp đồng</span>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <input class="res-inp" value="200.000.000" style="flex:1;"/>
+                  <span style="font-size:11px;color:#9CA3AF;font-weight:600;white-space:nowrap;">VND</span>
+                </div>
+                <span style="font-size:10px;color:#9CA3AF;">*(Hai trăm triệu đồng chẵn)*</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BÊN BÁN -->
+        <div class="res-section">
+          <div class="res-sec-hdr blue">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="res-sec-title blue">BÊN BÁN</span>
+          </div>
+          <div class="res-sec-body">
+            <div class="res-sublbl">THÔNG TIN CÁ NHÂN</div>
+            <div class="res-row">
+              <div class="res-field"><span class="res-lbl">Họ và tên</span><input class="res-inp blue-v" value="Trần Văn Thuấn"/></div>
+              <div class="res-field"><span class="res-lbl">Ngày sinh</span>
+                <div class="res-inp-wrap"><input class="res-inp" value="04/09/1973"/>
+                  <span class="res-cal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Địa chỉ</span><textarea class="res-ta" rows="2">Căn hộ chung cư số 307, nhà 3 tầng, TT Thống Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội</textarea></div></div>
+            <div class="res-sublbl">THÔNG TIN GIẤY TỜ</div>
+            <div class="res-row">
+              <div class="res-field"><span class="res-lbl">Số CCCD</span><input class="res-inp" value="031073016234"/></div>
+              <div class="res-field"><span class="res-lbl">Ngày cấp</span>
+                <div class="res-inp-wrap"><input class="res-inp" value="12/01/2022"/>
+                  <span class="res-cal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Nơi cấp</span><input class="res-inp" value="Cục Cảnh sát quản lý hành chính về trật tự xã hội"/></div></div>
+          </div>
+        </div>
+
+        <!-- BÊN MUA -->
+        <div class="res-section">
+          <div class="res-sec-hdr green">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="res-sec-title green">BÊN MUA</span>
+          </div>
+          <div class="res-sec-body">
+            <div class="res-sublbl">THÔNG TIN CÁ NHÂN</div>
+            <div class="res-row">
+              <div class="res-field"><span class="res-lbl">Họ và tên</span><input class="res-inp green-v" value="Bùi Đức Thành"/></div>
+              <div class="res-field"><span class="res-lbl">Ngày sinh</span>
+                <div class="res-inp-wrap"><input class="res-inp" value="09/03/2001"/>
+                  <span class="res-cal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Địa chỉ</span><textarea class="res-ta" rows="2">P311 B14 phường Thanh Xuân, thành phố Hà Nội</textarea></div></div>
+            <div class="res-sublbl">THÔNG TIN GIẤY TỜ</div>
+            <div class="res-row">
+              <div class="res-field"><span class="res-lbl">Số CCCD</span><input class="res-inp" value="001201005875"/></div>
+              <div class="res-field"><span class="res-lbl">Ngày cấp</span>
+                <div class="res-inp-wrap"><input class="res-inp" value="14/05/2021"/>
+                  <span class="res-cal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="res-row"><div class="res-field full"><span class="res-lbl">Nơi cấp</span><input class="res-inp" value="Cục Cảnh sát quản lý hành chính về trật tự xã hội"/></div></div>
+          </div>
+        </div>
+
+        <!-- THÔNG TIN TÀI SẢN -->
+        <div class="res-section">
+          <div class="res-sec-hdr orange">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <line x1="7" y1="7" x2="7.01" y2="7"/>
+            </svg>
+            <span class="res-sec-title orange">THÔNG TIN TÀI SẢN</span>
+          </div>
+          <div class="res-sec-body">
+            <div class="res-row">
+              <div class="res-field full">
+                <textarea class="res-ta" rows="5">Bên A là chủ sở hữu 01 (một) chiếc xe ôtô nhãn hiệu: HONDA; Số loại: CITYRS; Màu sơn: Đen; Số máy: L15ZC1012027, Số khung: RLHGN2681MY008687; số chỗ ngồi: 5; Biển số: 30H-489.96. Theo chứng nhận đăng ký xe ô tô số 29 101549 do Phòng Cảnh sát giao thông- Công an thành phố Hà Nội cấp ngày 17/02/2022, đứng tên chủ xe là Trần Văn Thuấn.</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal Tra cứu ngăn chặn ── -->
+<div id="modal-ngan-chan" class="modal-ngan-chan" onclick="if(event.target===this)closeNganChan()">
+  <div class="modal-nc-box">
+    <div class="modal-nc-header">
+      <div class="modal-nc-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="modal-nc-title">Phát hiện thông tin ngăn chặn</div>
+      <button class="modal-nc-close" onclick="closeNganChan()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <p class="modal-nc-desc">Tìm thấy <strong>1 kết quả</strong> khớp với từ khóa</p>
+    <div class="modal-nc-tags-label">TỪ KHÓA KHỚP</div>
+    <div class="modal-nc-tags">
+      <span class="modal-nc-tag">30H-489.96</span>
+      <span class="modal-nc-tag">RLHGN2681MY008687</span>
+      <span class="modal-nc-tag">Trần Văn Thuấn</span>
+    </div>
+    <button class="modal-nc-btn" onclick="closeNganChan()">Đóng</button>
+  </div>
+</div>
+
+<!-- ── Toast: Lưu & Đồng bộ ── -->
+<div id="toast-luu-dongbo" class="toast-notif green">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+  Lưu thành công và đang chờ duyệt
+</div>
+
+<!-- ── Toast: Lưu nháp ── -->
+<div id="toast-luu-nhap" class="toast-notif green">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+  Lưu thành công
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODAL: XÁC NHẬN XÓA
+══════════════════════════════════════════ -->
+<div id="modal-delete-confirm" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:40px 36px 32px;width:420px;max-width:94vw;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.22);animation:mlcSlideUp .25s ease;">
+    <!-- Icon -->
+    <div style="width:64px;height:64px;border-radius:50%;background:#FDE8E8;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2.2">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14H6L5 6"/>
+        <path d="M10 11v6M14 11v6"/>
+        <path d="M9 6V4h6v2"/>
+      </svg>
+    </div>
+    <!-- Title -->
+    <div style="font-size:20px;font-weight:700;color:#111;margin-bottom:12px;">Xác nhận xóa dữ liệu</div>
+    <!-- Body -->
+    <div style="font-size:14px;color:#6B7280;line-height:1.65;margin-bottom:10px;">
+      Bạn có chắc chắn muốn xóa toàn bộ tệp đang thực hiện và bắt đầu lại từ đầu không?
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#E65134;letter-spacing:.4px;margin-bottom:28px;">
+      HÀNH ĐỘNG NÀY KHÔNG THỂ HOÀN TÁC.
+    </div>
+    <!-- Buttons -->
+    <div style="display:flex;gap:12px;">
+      <button onclick="closeDeleteConfirm()" style="flex:1;padding:12px;border:1.5px solid #E5E7EB;border-radius:12px;background:#F9FAFB;color:#6B7280;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;">
+        Hủy bỏ
+      </button>
+      <button onclick="confirmDeleteAndReset()" style="flex:1;padding:12px;border:none;border-radius:12px;background:#E65134;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(230,81,52,.3);transition:background .15s;">
+        Xóa và làm lại
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL: LỜI CHỨNG CÔNG CHỨNG
+══════════════════════════════════════════ -->
+<div id="modal-loi-chung" class="mlc-overlay" onclick="if(event.target===this)closeLoiChung()">
+  <div class="mlc-box">
+
+    <!-- Header -->
+    <div class="mlc-header">
+      <div class="mlc-header-left">
+        <div class="mlc-header-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2.2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <div>
+          <div class="mlc-title">Lời chứng công chứng</div>
+          <div class="mlc-subtitle">Vui lòng kiểm tra và cập nhật các thông tin các bên tham gia hợp đồng. Nội dung này được xuất trực tiếp ra File Word cuối cùng.</div>
+        </div>
+      </div>
+      <button class="mlc-close" onclick="closeLoiChung()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body: 2 cột -->
+    <div class="mlc-body">
+
+      <!-- CỘT TRÁI: Bên A + Bên B -->
+      <div class="mlc-left">
+
+        <!-- BÊN A -->
+        <div class="mlc-party-card">
+          <div class="mlc-party-header orange">
+            <span class="mlc-party-label orange">Bên A</span>
+          </div>
+          <div class="mlc-party-body">
+            <div class="mlc-field">
+              <label class="mlc-lbl">VAI TRÒ:</label>
+              <input class="mlc-inp" id="lc-vai-tro-a" value="Bên bán"/>
+            </div>
+            <div class="mlc-field">
+              <label class="mlc-lbl">NỘI DUNG CHI TIẾT</label>
+              <textarea class="mlc-ta" id="lc-noi-dung-a" rows="6" oninput="updateLoiChungPreview()">Ông Trần Văn Thuấn, sinh ngày 04 tháng 9 năm 1973, Căn cước công dân số 031073016234 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 12/01/2022 và vợ là bà Lê Thị Thanh Thủy, sinh ngày 24 tháng 3 năm 1972, Căn cước công dân số 001172022895 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 26/02/2021. Cả hai ông bà cùng thường trú tại Căn hộ chung cư số 307, nhà 3 tầng, TT Thông Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- BÊN B -->
+        <div class="mlc-party-card" style="margin-top:14px;">
+          <div class="mlc-party-header orange">
+            <span class="mlc-party-label orange">Bên B</span>
+          </div>
+          <div class="mlc-party-body">
+            <div class="mlc-field">
+              <label class="mlc-lbl">VAI TRÒ:</label>
+              <input class="mlc-inp" id="lc-vai-tro-b" value="Bên mua"/>
+            </div>
+            <div class="mlc-field">
+              <label class="mlc-lbl">NỘI DUNG CHI TIẾT</label>
+              <textarea class="mlc-ta" id="lc-noi-dung-b" rows="5" oninput="updateLoiChungPreview()">Ông Bùi Đức Thành, sinh ngày 09 tháng 3 năm 2001, Căn cước công dân số 001201005875 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 14/5/2021, thường trú tại thường trú tại P314 B11, phường Thanh Xuân, thành phố Hà Nội.</textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CỘT PHẢI: Preview văn bản -->
+      <div class="mlc-right">
+        <div class="mlc-preview-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          Xem trước văn bản
+        </div>
+        <div class="mlc-preview-scroll">
+          <div class="mlc-preview-doc" id="lc-preview-doc">
+            <!-- nội dung được render bởi JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="mlc-footer">
+      <button class="mlc-btn-cancel" onclick="closeLoiChung()">Hủy bỏ</button>
+      <button class="mlc-btn-export" onclick="doExportWord()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/>
+        </svg>
+        Xuất File Word
+      </button>
+    </div>
+
+  </div>
+</div>

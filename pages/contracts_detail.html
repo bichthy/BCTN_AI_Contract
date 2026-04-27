@@ -1,0 +1,298 @@
+<!--
+  contracts-detail.html — Màn chi tiết hợp đồng
+-->
+
+<!-- ══════════════ SCREEN 2 — CHI TIẾT ══════════════ -->
+<div id="screen-detail" class="screen">
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/pPPhvHlewN/cb6uohth_expires_30_days.png" class="hdr-logo-img" onerror="this.style.display='none'"/>
+      <div><div style="color:#E65134;font-weight:700;font-size:15px;">NuverxAI</div><div style="color:#9CA3AF;font-size:9px;font-weight:700;letter-spacing:1px;">AI CONTRACT</div></div>
+    </div>
+    <div style="flex:1;"></div>
+    <button class="hdr-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      Tra cứu pháp luật
+    </button>
+    <button class="lang-btn"><img src="https://flagcdn.com/w40/vn.png" alt="VN"/>VN</button>
+    <div class="online-badge"><div style="width:8px;height:8px;border-radius:50%;background:#4ADE80;"></div>Online</div>
+    <div style="position:relative;cursor:pointer;width:26px;height:26px;display:flex;align-items:center;justify-content:center;" onclick="toggleNotif(event)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div style="position:absolute;top:2px;right:2px;width:7px;height:7px;background:#E65134;border-radius:50%;border:1.5px solid #fff;"></div>
+    </div>
+    <div class="avatar-wrap">
+      <div class="hdr-avatar" onclick="toggleAvatarPopup(event)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-wrap">
+    <!-- Sidebar -->
+    <div class="detail-sidebar">
+      <div style="display:flex;align-items:center;gap:13px;margin:0 0 10px 21px;">
+        <button onclick="goBack()" style="width:28px;height:28px;border-radius:50%;border:1.5px solid #E65134;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </button>
+        <span style="color:#E65134;font-size:17px;font-weight:700;">Xem chi tiết hợp đồng</span>
+      </div>
+      <div style="background:#E5E7EB;height:1px;margin-bottom:14px;"></div>
+      <div style="margin-left:18px;">
+        <div class="tree-item" onclick="switchToTab('ct-panel-toanvan')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span id="sidebar-contract-name">HỢP ĐỒNG MUA BÁN XE Ô TÔ</span>
+        </div>
+        <div class="tree-child" id="sidebar-pdf-link" onclick="switchToTab('ct-panel-pdf')">
+          <div style="width:6px;height:6px;border-radius:50%;background:#9CA3AF;flex-shrink:0;"></div>
+          <span id="sidebar-pdf-label">PDF công chứng hợp đồng</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="detail-main">
+      <div class="detail-topbar">
+        <div style="display:flex;align-items:center;margin-bottom:8px;">
+          <div style="flex:1;">
+            <div id="detail-title" style="font-size:22px;font-weight:600;color:#111;margin-bottom:6px;"></div>
+            <div style="display:flex;align-items:center;gap:18px;">
+              <div style="display:flex;align-items:center;gap:4px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span id="detail-date" style="color:#6B7280;font-size:11px;"></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span style="color:#6B7280;font-size:11px;">Sửa đổi lần cuối: 14 phút trước</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span id="detail-doc-status" style="padding:6px 11px;border-radius:6px;font-size:13px;font-weight:500;"></span>
+            <span id="detail-sync-status" style="padding:6px 22px;border-radius:6px;font-size:13px;font-weight:500;"></span>
+          </div>
+        </div>
+        <div class="topbar-sep"></div>
+        <div class="topbar-tab-row">
+          <div class="tab-bar" id="detail-tab-bar">
+            <div class="tab-item active" onclick="switchTabItem(this,'ct-panel-toanvan')">Toàn văn</div>
+            <div class="tab-item" onclick="switchTabItem(this,'ct-panel-vanbangoc')">Văn bản gốc</div>
+            <div class="tab-item" onclick="switchTabItem(this,'ct-panel-tongquan')">Tổng quan</div>
+            <div class="tab-item" onclick="switchTabItem(this,'ct-panel-pdf')">PDF công chứng</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOÀN VĂN -->
+      <div id="ct-panel-toanvan" class="tab-panel active">
+        <div class="doc-scroll"><div class="doc-content">
+          <p style="text-align:center;font-weight:600;margin-bottom:4px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+          <p style="text-align:center;margin-bottom:4px;">Độc lập - Tự do - Hạnh phúc</p>
+          <p style="text-align:center;margin-bottom:16px;">-----------------------</p>
+          <p style="text-align:center;font-weight:700;margin-bottom:20px;" id="doc-main-title">HỢP ĐỒNG MUA BÁN XE Ô TÔ</p>
+          <p style="margin-bottom:12px;">Hôm nay, ngày 03 tháng 7 năm 2025, tại trụ sở Phòng Công chứng số 1 thành phố Hà Nội, chúng tôi gồm:</p>
+          <p style="font-weight:600;margin-bottom:6px;">BÊN BÁN (Bên A):</p>
+          <p style="margin-bottom:12px;">Ông Trần Văn Thuấn, sinh ngày 04 tháng 9 năm 1973, Căn cước công dân số 031073016234. Thường trú tại Căn hộ chung cư số 307, nhà 3 tầng, TT Thông Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội.</p>
+          <p style="font-weight:600;margin-bottom:6px;">BÊN MUA (Bên B):</p>
+          <p style="margin-bottom:12px;">Ông Bùi Đức Thành, sinh ngày 09 tháng 3 năm 2001, Căn cước công dân số 001201005875, thường trú tại P314 B11, phường Thanh Xuân, thành phố Hà Nội.</p>
+          <p style="font-weight:600;margin-bottom:8px;">Đặc điểm xe mua bán</p>
+          <p>Bên A là chủ sở hữu 01 (một) chiếc xe ô tô nhãn hiệu: HONDA; Số loại: CITYRS; Màu sơn: Đen; Số máy: L15ZC1012027; Biển số: 30H-489.96.</p>
+        </div></div>
+      </div>
+
+      <!-- VĂN BẢN GỐC -->
+      <div id="ct-panel-vanbangoc" class="tab-panel">
+        <div class="orig-wrap">
+          <div class="orig-scroll-area"><div class="orig-scroll-inner"><div class="orig-img">
+            <p style="text-align:center;font-weight:700;font-size:14px;margin-bottom:2px;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+            <p style="text-align:center;margin-bottom:18px;">Độc lập - Tự do - Hạnh phúc</p>
+            <p style="text-align:center;font-weight:700;text-decoration:underline;font-size:15px;margin-bottom:20px;">HỢP ĐỒNG MUA BÁN XE Ô TÔ</p>
+            <p style="margin-bottom:12px;">Hôm nay, ngày 03 tháng 7 năm 2025, tại trụ sở Phòng Công chứng số 1 thành phố Hà Nội, chúng tôi gồm:</p>
+            <p style="font-weight:600;margin-bottom:6px;">BÊN BÁN (Bên A):</p>
+            <p style="margin-bottom:12px;">Ông Trần Văn Thuấn, sinh ngày 04 tháng 9 năm 1973, Căn cước công dân số 031073016234. Thường trú tại Căn hộ chung cư số 307, nhà 3 tầng, TT Thông Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội.</p>
+            <p style="font-weight:600;margin-bottom:6px;">BÊN MUA (Bên B):</p>
+            <p style="margin-bottom:12px;">Ông Bùi Đức Thành, sinh ngày 09 tháng 3 năm 2001, Căn cước công dân số 001201005875, thường trú tại P314 B11, phường Thanh Xuân, thành phố Hà Nội.</p>
+            <p style="font-weight:600;margin-bottom:8px;">Đặc điểm xe mua bán</p>
+            <p>Bên A là chủ sở hữu 01 (một) chiếc xe ô tô nhãn hiệu: HONDA; Số loại: CITYRS; Màu sơn: Đen; Số máy: L15ZC1012027; Biển số: 30H-489.96.</p>
+            <div style="display:flex;justify-content:space-between;margin-top:40px;">
+              <div style="text-align:center;width:40%;"><p style="font-weight:700;">BÊN BÁN</p><p style="font-size:11px;color:#666;margin:4px 0 50px;">(Ký, ghi rõ họ tên)</p><p style="font-weight:700;">Trần Văn Thuấn</p></div>
+              <div style="text-align:center;width:40%;"><p style="font-weight:700;">BÊN MUA</p><p style="font-size:11px;color:#666;margin:4px 0 50px;">(Ký, ghi rõ họ tên)</p><p style="font-weight:700;">Bùi Đức Thành</p></div>
+            </div>
+          </div></div></div>
+          <div class="orig-vscroll"></div>
+        </div>
+      </div>
+
+      <!-- TỔNG QUAN -->
+      <div id="ct-panel-tongquan" class="tab-panel">
+        <div class="tq-wrap">
+          <div class="tq-header">
+            <span style="color:#E65134;font-size:18px;font-weight:700;">Kết quả trích xuất</span>
+            <div class="save-btn-wrap">
+              <button class="save-btn" id="save-sync-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Lưu &amp; Đồng bộ
+              </button>
+              <div class="save-tooltip">
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                  <div style="width:44px;height:44px;flex-shrink:0;border-radius:50%;background:#fde8e8;display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+                  <div style="flex:1;"><div style="font-size:15px;font-weight:700;color:#111;margin-bottom:8px;">Không thể thực hiện</div><div id="save-tooltip-msg" style="font-size:13px;color:#444;line-height:1.7;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin hợp đồng -->
+          <div class="card">
+            <div class="card-header" style="background:#FFF7F0;border-color:#FDE8D8;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span style="color:#E65134;font-size:15px;font-weight:700;">THÔNG TIN HỢP ĐỒNG</span>
+            </div>
+            <div class="card-body">
+              <div class="field-row-2">
+                <div><label class="field-label">Mã hợp đồng</label><input class="field-input" value="2805-42"/></div>
+                <div><label class="field-label">Thời hạn</label>
+                  <div class="date-field"><div class="date-input-wrap">
+                    <input type="text" class="date-text-input" id="df-deadline" placeholder="dd/mm/yyyy" oninput="syncCalFromInput('cal-deadline',this.value)" onfocus="openCal('cal-deadline',this)"/>
+                    <span class="date-cal-icon" onclick="toggleCalFromIcon('cal-deadline','df-deadline')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                  </div><div id="cal-deadline" class="cal-popup" data-target="df-deadline"></div></div>
+                </div>
+              </div>
+              <div class="field-mb"><label class="field-label">Loại hợp đồng</label><input class="field-input" value="Hợp đồng mua bán"/></div>
+              <div class="field-mb"><label class="field-label">Tên hợp đồng</label><input class="field-input" id="tq-contract-name" value="HỢP ĐỒNG MUA BÁN XE Ô TÔ"/></div>
+              <div class="field-mb" style="margin-bottom:4px;"><label class="field-label">Giá trị hợp đồng</label><input class="field-input" value="200.000.000"/></div>
+              <span style="font-size:12px;color:#9CA3AF;">*(Hai trăm triệu đồng chẵn)*</span>
+            </div>
+          </div>
+
+          <!-- Bên bán & Bên mua -->
+          <div class="party-grid">
+            <div class="party-card">
+              <div class="party-header" style="background:#EFF6FF;border-color:#BFDBFE;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span style="color:#3B82F6;font-size:15px;font-weight:700;">BÊN BÁN</span>
+              </div>
+              <div style="padding:14px 18px 18px;">
+                <p class="section-label">THÔNG TIN CÁ NHÂN</p>
+                <div class="field-row-2">
+                  <div><label class="field-label">Họ và tên</label><input class="field-input" value="Trần Văn Thuấn" style="color:#3B82F6;font-weight:600;"/></div>
+                  <div><label class="field-label">Ngày sinh</label>
+                    <div class="date-field"><div class="date-input-wrap">
+                      <input type="text" class="date-text-input" id="df-seller-dob" value="04/09/1973" oninput="syncCalFromInput('cal-seller-dob',this.value)" onfocus="openCal('cal-seller-dob',this)"/>
+                      <span class="date-cal-icon" onclick="toggleCalFromIcon('cal-seller-dob','df-seller-dob')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    </div><div id="cal-seller-dob" class="cal-popup" data-target="df-seller-dob" data-init="1973-09-04"></div></div>
+                  </div>
+                </div>
+                <div class="field-mb"><label class="field-label">Địa chỉ</label><textarea class="field-input" rows="2" style="resize:none;line-height:1.5;">Căn hộ chung cư số 307, nhà 3 tầng, phường Bạch Mai, Hà Nội</textarea></div>
+                <p class="section-label">THÔNG TIN GIẤY TỜ</p>
+                <div class="field-row-2">
+                  <div><label class="field-label">Số CCCD</label><input class="field-input" value="031073016234"/></div>
+                  <div><label class="field-label">Ngày cấp</label>
+                    <div class="date-field"><div class="date-input-wrap">
+                      <input type="text" class="date-text-input" id="df-seller-issued" value="12/01/2022" oninput="syncCalFromInput('cal-seller-issued',this.value)" onfocus="openCal('cal-seller-issued',this)"/>
+                      <span class="date-cal-icon" onclick="toggleCalFromIcon('cal-seller-issued','df-seller-issued')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    </div><div id="cal-seller-issued" class="cal-popup" data-target="df-seller-issued" data-init="2022-01-12"></div></div>
+                  </div>
+                </div>
+                <div class="field-mb" style="margin-bottom:0;"><label class="field-label">Nơi cấp</label><input class="field-input" value="Cục Cảnh sát quản lý hành chính về trật tự xã hội"/></div>
+              </div>
+            </div>
+            <div class="party-card">
+              <div class="party-header" style="background:#F0FDF4;border-color:#BBF7D0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span style="color:#16a34a;font-size:15px;font-weight:700;">BÊN MUA</span>
+              </div>
+              <div style="padding:14px 18px 18px;">
+                <p class="section-label">THÔNG TIN CÁ NHÂN</p>
+                <div class="field-row-2">
+                  <div><label class="field-label">Họ và tên</label><input class="field-input" value="Bùi Đức Thành" style="color:#16a34a;font-weight:600;"/></div>
+                  <div><label class="field-label">Ngày sinh</label>
+                    <div class="date-field"><div class="date-input-wrap">
+                      <input type="text" class="date-text-input" id="df-buyer-dob" value="09/03/2001" oninput="syncCalFromInput('cal-buyer-dob',this.value)" onfocus="openCal('cal-buyer-dob',this)"/>
+                      <span class="date-cal-icon" onclick="toggleCalFromIcon('cal-buyer-dob','df-buyer-dob')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    </div><div id="cal-buyer-dob" class="cal-popup" data-target="df-buyer-dob" data-init="2001-03-09"></div></div>
+                  </div>
+                </div>
+                <div class="field-mb"><label class="field-label">Địa chỉ</label><textarea class="field-input" rows="2" style="resize:none;line-height:1.5;">P311 B14 phường Thanh Xuân, Hà Nội</textarea></div>
+                <p class="section-label">THÔNG TIN GIẤY TỜ</p>
+                <div class="field-row-2">
+                  <div><label class="field-label">Số CCCD</label><input class="field-input" value="001201005875"/></div>
+                  <div><label class="field-label">Ngày cấp</label>
+                    <div class="date-field"><div class="date-input-wrap">
+                      <input type="text" class="date-text-input" id="df-buyer-issued" value="14/05/2021" oninput="syncCalFromInput('cal-buyer-issued',this.value)" onfocus="openCal('cal-buyer-issued',this)"/>
+                      <span class="date-cal-icon" onclick="toggleCalFromIcon('cal-buyer-issued','df-buyer-issued')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+                    </div><div id="cal-buyer-issued" class="cal-popup" data-target="df-buyer-issued" data-init="2021-05-14"></div></div>
+                  </div>
+                </div>
+                <div class="field-mb" style="margin-bottom:0;"><label class="field-label">Nơi cấp</label><input class="field-input" value="Cục Cảnh sát quản lý hành chính về trật tự xã hội"/></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin tài sản -->
+          <div class="card" style="margin-bottom:0;">
+            <div class="card-header" style="background:#FFF7F0;border-color:#FDE8D8;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <span style="color:#E65134;font-size:15px;font-weight:700;">THÔNG TIN TÀI SẢN</span>
+            </div>
+            <div style="padding:16px 22px 20px;">
+              <textarea class="field-input" rows="4" style="resize:none;line-height:1.7;">Bên A là chủ sở hữu 01 (một) chiếc xe ôtô nhãn hiệu: HONDA; Số loại: CITYRS; Màu sơn: Đen; Số máy: L15ZC1012027, Số khung: RLHGN2681MY008687; số chỗ ngồi: 5; Biển số: 30H-489.96.</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDF CÔNG CHỨNG -->
+      <div id="ct-panel-pdf" class="tab-panel">
+        <div id="pdf-upload-state" class="pdf-outer">
+          <div class="pdf-upload-card" id="pdf-drop-zone"
+               onclick="document.getElementById('pdf-file-input').click()"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="handlePdfDrop(event)">
+            <div class="pdf-blob"></div>
+            <div class="pdf-icon-card">
+              <div class="pdf-plus-badge">+</div>
+              <svg width="62" height="62" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h2m2 0h2M12 10v6"/></svg>
+            </div>
+            <p class="pdf-upload-title">Chưa có PDF công chứng</p>
+            <p class="pdf-upload-sub">Kéo và thả tệp PDF hoặc nhấn để duyệt file từ máy tính</p>
+            <button class="pdf-upload-btn" onclick="event.stopPropagation();document.getElementById('pdf-file-input').click()">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+              Tải lên PDF
+            </button>
+            <input type="file" id="pdf-file-input" accept=".pdf" style="display:none" onchange="handlePdfUpload(this.files[0])"/>
+          </div>
+        </div>
+        <div id="pdf-preview-state" style="display:none;" class="pdf-preview-wrap">
+          <div class="pdf-preview-card">
+            <div class="pdf-preview-header">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E65134" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span id="pdf-filename" style="font-size:14px;font-weight:600;color:#111;"></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <button onclick="document.getElementById('pdf-file-input').click()" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid #E65134;border-radius:8px;background:#fff;color:#E65134;font-size:13px;cursor:pointer;font-family:inherit;">Thay thế</button>
+                <button onclick="removePdf()" style="display:flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid #E5E7EB;border-radius:8px;background:#fff;color:#6B7280;font-size:13px;cursor:pointer;font-family:inherit;">Xóa</button>
+              </div>
+            </div>
+            <div class="pdf-preview-body">
+              <div class="pdf-page-mock">
+                <p style="text-align:center;font-weight:700;margin-bottom:4px;text-decoration:underline;">LỜI CHỨNG CỦA CÔNG CHỨNG VIÊN:</p>
+                <p style="font-style:italic;margin-bottom:16px;">Hôm nay, ngày 03 tháng 7 năm 2025 (Ngày mùng ba, tháng bảy, năm hai nghìn không trăm hai mươi lăm); tại trụ sở Phòng Công chứng số 1 thành phố Hà Nội, địa chỉ tại số 310 phố Bà Triệu, phường Hai Bà Trưng, thành phố Hà Nội; Tôi <span style="font-style:italic;font-weight:700;">Lê Thanh Phương</span>, Công chứng viên, trong phạm vi quyền hạn và trách nhiệm của mình theo quy định của pháp luật,</p>
+                <p style="text-align:center;margin-bottom:8px;"><strong>Chứng nhận:</strong></p>
+                <p style="margin-bottom:12px;"><strong>Hợp đồng mua bán xe ô tô</strong> được giao kết giữa:</p>
+                <p style="margin-bottom:12px;"><span style="font-weight:700;text-decoration:underline;">BÊN BÁN (BÊN A):</span> Ông <strong>Trần Văn Thuấn</strong>, sinh ngày 04 tháng 9 năm 1973, Căn cước công dân số 031073016234 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 12/01/2022 và vợ là bà <strong>Lê Thị Thanh Thủy</strong>, sinh ngày 24 tháng 3 năm 1972, Căn cước công dân số 001172022895 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 26/02/2021. Cả hai ông bà cùng thường trú tại Căn hộ chung cư số 307, nhà 3 tầng, TT Thông Tấn Xã VN, phường Bạch Mai, thành phố Hà Nội</p>
+                <p style="margin-bottom:16px;"><span style="font-weight:700;text-decoration:underline;">BÊN MUA (BÊN B):</span> Ông <strong>Bùi Đức Thành</strong>, sinh ngày 09 tháng 3 năm 2001, Căn cước công dân số 001201005875 do Cục cảnh sát quản lý hành chính về trật tự xã hội cấp ngày 14/5/2021, thường trú tại P314 B11, phường Thanh Xuân, thành phố Hà Nội</p>
+                <p style="margin-bottom:8px;">- Các bên đã tự nguyện giao kết hợp đồng này.</p>
+                <p style="margin-bottom:8px;">- Tại thời điểm ký vào từng trang và điểm chỉ vào trang cuối hợp đồng này, các bên giao kết có năng lực hành vi dân sự theo quy định của pháp luật.</p>
+                <p style="margin-bottom:8px;">- Các bên giao kết cam đoan chịu trách nhiệm trước pháp luật về tính chính xác, tính hợp pháp của các thông tin và các giấy tờ đã cung cấp liên quan đến việc giao kết hợp đồng này.</p>
+                <p style="margin-bottom:8px;">- Mục đích, nội dung của hợp đồng không vi phạm pháp luật, không trái đạo đức xã hội.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /detail-main -->
+  </div><!-- /detail-wrap -->
+</div><!-- /screen-detail -->
